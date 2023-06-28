@@ -1,5 +1,5 @@
 # TenFootball
-Projeto feito para uma vaga na Energy Source. Foi baseado na API: [https://www.api-football.com/documentation-v3]. Feito em Next.js com TypeScript.
+Projeto feito para uma vaga na Energy Source. Foi baseado na API: https://www.api-football.com/documentation-v3. Feito em Next.js com TypeScript.
 
 ## Getting Started
 
