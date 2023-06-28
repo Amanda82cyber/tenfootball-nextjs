@@ -30,7 +30,6 @@ export const getServerSideProps: GetServerSideProps<TeamViewProps> = async ({ pa
 }
 
 const TeamView = ({ playersStatistics }: TeamViewProps) => {
-	console.log(playersStatistics)
 	return (
 		<>
 			<Head>
