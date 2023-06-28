@@ -1,4 +1,4 @@
-import { Leagues } from "@/models/Leagues";
+import { Leagues } from "@/models/LeagueResponse";
 import Link from "next/link";
 import { Card, Col, Image } from "react-bootstrap";
 
@@ -8,7 +8,7 @@ interface BigLeaguesCardProps {
 
 const BigLeaguesCard = ({ leagues }: BigLeaguesCardProps) => {
 	return (
-		<Link href={`/league/${leagues.league.id}`}>
+		<Link href={`/league/${leagues.league.id}?season=${leagues.seasons[0].year}`}>
 			<Card className="card-default border-blue h-100">
 				<Card.Body className="row align-items-center">
 					<Col xs={3} md={4} xl={3}>

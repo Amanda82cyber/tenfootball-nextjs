@@ -90,3 +90,7 @@ a {
   cursor: pointer;
   background-color: #04a3d436 !important;
 }
+
+.card-yellow::before {
+  content: "\e4df ";
+}

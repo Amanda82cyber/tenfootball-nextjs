@@ -1,4 +1,4 @@
-import { Leagues } from "@/models/Leagues";
+import { Leagues } from "@/models/LeagueResponse";
 import { Col, Row } from "react-bootstrap";
 import BigLeaguesCard from "./BigLeaguesCard";
 

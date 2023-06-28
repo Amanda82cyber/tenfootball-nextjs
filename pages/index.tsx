@@ -1,9 +1,8 @@
 import BigLeaguesGrid from "@/components/BigLeaguesGrid";
 import LeaguesTable from "@/components/LeaguesTable";
-import { Leagues, LeaguesResponse } from "@/models/Leagues";
+import { Leagues } from "@/models/LeagueResponse";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { Col, Image, Row } from "react-bootstrap";
 
 interface LeaguesViewProps {
   leagues: Leagues[],
@@ -23,16 +22,18 @@ export const getServerSideProps: GetServerSideProps<LeaguesViewProps> = async ()
   const leagues: Leagues[] = result.response;
   const bigLeaguesId = [71, 39, 140, 78, 135, 61];
   const bigLeagues: Leagues[] = [];
+  const newLeagues: Leagues[] = [];
 
-  leagues.forEach((league: Leagues, index) => {
+  leagues.forEach((league: Leagues) => {
     if (bigLeaguesId.includes(league.league.id)) {
       bigLeagues.push(league);
-      // leagues.splice(index, 1);
+    } else {
+      newLeagues.push(league);
     }
   });
 
   return {
-    props: { leagues: leagues, bigLeagues: bigLeagues },
+    props: { leagues: newLeagues, bigLeagues: bigLeagues },
   }
 }
 

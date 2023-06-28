@@ -1,4 +1,4 @@
-import { Leagues } from "@/models/Leagues";
+import { Leagues } from "@/models/LeagueResponse";
 import { Container, Form, Image } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useState } from 'react';
@@ -46,7 +46,7 @@ const LeaguesTable = ({ leagues }: LeaguesTableProps) => {
 	}
 
 	function openLeague(event: Leagues) {
-		window.location.href = '/league/' + event.league.id;
+		window.location.href = `/league/${event.league.id}?season=${event.seasons[0].year}`;
 	}
 
 	return (
