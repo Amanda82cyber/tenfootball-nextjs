@@ -1,49 +1,67 @@
-import FormConversion from "@/components/formConversion";
-import { Symbol, SymbolsResponse } from "@/models/Symbols";
+import BigLeaguesGrid from "@/components/BigLeaguesGrid";
+import LeaguesTable from "@/components/LeaguesTable";
+import { Leagues, LeaguesResponse } from "@/models/Leagues";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Col, Image, Row } from "react-bootstrap";
 
-interface ConvertionProps {
-  symbols: Symbol[],
+interface LeaguesViewProps {
+  leagues: Leagues[],
+  bigLeagues: Leagues[],
 }
 
-export const getServerSideProps: GetServerSideProps<ConvertionProps> = async () => {
-  const response = await fetch("http://data.fixer.io/api/symbols?access_key=" + process.env.FIXER_API_KEY);
-  const result = await response.json();
+export const getServerSideProps: GetServerSideProps<LeaguesViewProps> = async () => {
+  const response = await fetch(`https://v3.football.api-sports.io/leagues?current=true&type=league`, {
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "v3.football.api-sports.io",
+      "x-rapidapi-key": `${process.env.API_KEY}`,
+    },
+  });
 
-  const formattedResult = Object.keys(result.symbols).map(function (key) {
-    return {
-      symbol: key,
-      country: result.symbols[key],
+  const result = await response.json();
+  const leagues: Leagues[] = result.response;
+  const bigLeaguesId = [71, 39, 140, 78, 135, 61];
+  const bigLeagues: Leagues[] = [];
+
+  leagues.forEach((league: Leagues, index) => {
+    if (bigLeaguesId.includes(league.league.id)) {
+      bigLeagues.push(league);
+      // leagues.splice(index, 1);
     }
   });
 
-  const symbolsResponse: SymbolsResponse = { symbols: formattedResult };
-
   return {
-    props: { symbols: symbolsResponse.symbols },
+    props: { leagues: leagues, bigLeagues: bigLeagues },
   }
 }
 
-export default function Convertion({ symbols }: ConvertionProps) {
+export default function LeaguesView({ leagues, bigLeagues }: LeaguesViewProps) {
   return (
     <>
       <Head>
-        <title key="title">Currency Conversion | Home</title>
+        <title key="title">TenFootball | Ligas</title>
       </Head>
       <main>
-        <h2 className="mb-1">Descubra o poder da conversão de moedas em suas mãos!</h2>
-        <h4 className="mb-3">Converta moedas com taxas de câmbio em tempo real</h4>
+        <h1 className="mb-1 color-blue">
+          Ligas Fortes de Futebol
+        </h1>
 
-        <Row className="w-100 mx-0 mx-md-auto">
-          <Col xs={12} md={9} lg={8} className="border-green p-3">
-            <FormConversion symbols={symbols} />
-          </Col>
-          <Col xs={12} md={3} lg={4} className="d-none d-md-block text-center">
-            <Image src="/svg/currency-animate.svg" alt="Animação Dinheiro" className="w-75" />
-          </Col>
-        </Row>
+        <h5 className="mb-3">
+          Explore as classificações, os times e os jogadores históricos dessas ligas de elite
+        </h5>
+
+        <BigLeaguesGrid bigLeagues={bigLeagues} />
+
+        <h1 className="mb-1 mt-5 color-blue">
+          Outras Ligas
+        </h1>
+
+        <h5 className="mb-3">
+          Conheça outras ligas atuais ou encontre suas preferidas
+        </h5>
+
+        <LeaguesTable leagues={leagues} />
       </main>
     </>
   )
